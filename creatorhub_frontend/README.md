@@ -20,6 +20,40 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Supabase Integration
+
+IMPORTANT: Supabase Configuration Required
+
+1. In your Supabase Dashboard:
+   - Go to Authentication > URL Configuration
+   - Set Site URL to your production domain (e.g., https://creatorhub.app)
+   - Add these Redirect URLs:
+     * http://localhost:3000/**
+     * https://creatorhub.app/**
+
+2. Environment Variables:
+   - Set NEXT_PUBLIC_SUPABASE_URL
+   - Set NEXT_PUBLIC_SUPABASE_KEY
+   - Optional: NEXT_PUBLIC_SITE_URL (for production)
+   - Optional: NEXT_PUBLIC_VERCEL_URL (on Vercel)
+
+3. Frontend utilities:
+   - Auth helpers in `src/utils/auth.ts`
+   - Supabase client in `src/utils/supabase.ts`
+   - URL helper in `src/utils/getURL.ts`
+   - Auth callback route at `src/app/auth/callback/page.tsx`
+   - Auth error route at `src/app/auth/error/page.tsx`
+
+4. Usage example:
+```ts
+import { signInWithOAuth } from '@/src/utils/auth'
+await signInWithOAuth('github')
+```
+
+5. Notes:
+   - Never hardcode redirect URLs; always use `getURL()`.
+   - Include both localhost and production URLs in Supabase auth config.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
